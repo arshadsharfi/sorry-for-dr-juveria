@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>I’m Sorry ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(-45deg, #ff758c, #ff7eb3, #fad0c4, #ffd1ff);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.6;
+  }
+
+  @keyframes floatUp {
+    from { transform: translateY(0); opacity: 0.8; }
+    to { transform: translateY(-110vh); opacity: 0; }
+  }
+
+  .card {
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.88);
+    border-radius: 22px;
+    padding: 25px;
+    width: 90%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+    animation: popCard 0.6s ease;
+  }
+
+  @keyframes popCard {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.06); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  h1 {
+    color: #ff4d6d;
+    margin-bottom: 8px;
+    animation: heartbeat 1.8s infinite;
+  }
+
+  p {
+    color: #444;
+    font-size: 15px;
+  }
+
+  .buttons {
+    position: relative;
+    height: 150px;
+    margin-top: 30px;
+  }
+
+  button {
+    padding: 12px 28px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  #yesBtn {
+    background: linear-gradient(135deg, #ff4d6d, #ff758c);
+    color: white;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+  }
+
+  #noBtn {
+    background: #eee;
+    color: #333;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .hidden { display: none; }
+
+  .unlock {
+    margin-top: 15px;
+    background: #fff0f3;
+    padding: 12px;
+    border-radius: 12px;
+    color: #ff4d6d;
+    font-size: 14px;
+  }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+
+  .modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 90%;
+    max-width: 320px;
+    text-align: center;
+    animation: popCard 0.4s ease;
+  }
+
+  .modal img {
+    width: 100%;
+    border-radius: 14px;
+    margin-bottom: 10px;
+  }
+
+  .modal h2 {
+    color: #ff4d6d;
+  }
+
+  .close-btn {
+    background: linear-gradient(135deg, #ff4d6d, #ff758c);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 25px;
+    font-size: 15px;
+  }
+</style>
+</head>
+
+<body>
+
+<script>
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
+  }, 900);
+</script>
+
+<div class="card">
+  <h1>Dr. Juveria 🥺</h1>
+  <p>I know mai pagal baataan kartau…<br>and I’m truly sorry </p>
+  <p><b>Will you forgive me?</b></p>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 😒</button>
+  </div>
+
+  <div id="unlockText" class="unlock hidden">
+    Okay Dr. Juveria… I know you want to forgive me 😌  
+    Now click <b>Yes</b> 💕
+  </div>
+</div>
+
+<audio id="sorryAudio" src="sorry.mp3"></audio>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <img src="sorry.png" alt="Sorry Dr. Juveria 🙏">
+    <h2>I’m really sorry, Dr. Juveria 🙏</h2>
+    <p>Bade Bade Deshon mein choti choti baatein hote rehti maaf kardo pleaseee</p>
+    <button class="close-btn" onclick="closeModal()">Okay ❤️</button>
+  </div>
+</div>
+
+<script>
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const unlockText = document.getElementById("unlockText");
+  const modal = document.getElementById("modal");
+  const audio = document.getElementById("sorryAudio");
+
+  let unlocked = false;
+
+  function move(btn) {
+    btn.style.left = Math.random() * (window.innerWidth - btn.offsetWidth) + "px";
+    btn.style.top = Math.random() * (window.innerHeight - btn.offsetHeight) + "px";
+  }
+
+  yesBtn.addEventListener("touchstart", e => {
+    if (!unlocked) {
+      e.preventDefault();
+      move(yesBtn);
+    }
+  });
+
+  noBtn.addEventListener("touchstart", e => {
+    e.preventDefault();
+    move(noBtn);
+  });
+
+  setTimeout(() => {
+    unlocked = true;
+    unlockText.classList.remove("hidden");
+    yesBtn.style.left = "50%";
+    yesBtn.style.bottom = "0";
+    yesBtn.style.top = "auto";
+    yesBtn.style.transform = "translateX(-50%)";
+  }, 25000);
+
+  yesBtn.addEventListener("click", () => {
+    if (!unlocked) return;
+
+    if (navigator.vibrate) {
+      navigator.vibrate([200,100,200,100,400]);
+    }
+
+    audio.currentTime = 0;
+    audio.play().catch(()=>{});
+    modal.classList.remove("hidden");
+  });
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    unlockText.innerHTML = "Thank you for forgiving me, Dr. Juveria 😭❤️";
+    unlockText.classList.remove("hidden");
+  }
+</script>
+
+</body>
+</html>
